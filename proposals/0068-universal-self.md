@@ -21,7 +21,7 @@ a static member or passing types for unsafe bitcasts, among other uses.
 You can either specify a type by its full name or use `self.dynamicType`
 to access an instance's dynamic runtime type as a value. 
 
-```
+```swift
 struct MyStruct {
     static func staticMethod() { ... }
     func instanceMethod() {
@@ -41,6 +41,28 @@ Introducing `Self` addresses the following issues:
 * Using `self.dynamicType` fights against Swift's goals of concision and clarity in that it is both noisy and esoteric.
 
 Note that `self.dynamicType.classMember` and `TypeName.classMember` may not be synonyms in class types with non-final members.
+
+```swift
+class MyClass {
+    class func staticMethod() -> Int 
+    { return 5 }
+    func instanceMethod() {
+        print(MyClass.staticMethod())
+        print(self.dynamicType.staticMethod())
+    }
+}
+
+class HiClass: MyClass {
+    override class func staticMethod() -> Int 
+    {return 6}
+}
+
+let h = HiClass()
+// 5
+// 6
+h.instanceMethod()
+
+```
 
 ## Detail Design
 
