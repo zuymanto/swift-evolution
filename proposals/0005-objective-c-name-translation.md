@@ -130,7 +130,7 @@ property named `URLHandler` will be lowercased to `urlHandler`).
 
 To get a sense of what these transformations do, consider a portion of
 the imported `UIBezierPath` API in Swift 2:
-
+```swift
     class UIBezierPath : NSObject, NSCopying, NSCoding {
       convenience init(ovalInRect: CGRect)
       func moveToPoint(_: CGPoint)
@@ -147,9 +147,9 @@ the imported `UIBezierPath` API in Swift 2:
       func copyWithZone(_: NSZone) -> AnyObject
       func encodeWithCoder(_: NSCoder)
     }
-
+```
 And the same API imported under our current, experimental implementation of this proposal:
-
+```swift
     class UIBezierPath : NSObject, NSCopying, NSCoding {
       convenience init(ovalIn rect: CGRect)
       func move(to point: CGPoint)
@@ -166,7 +166,7 @@ And the same API imported under our current, experimental implementation of this
       func copy(with zone: NSZone = nil) -> AnyObject
       func encode(with aCoder: NSCoder)
     }
-
+```
 In the latter case, a number of words that restated type information
 in the original APIs have been pruned. The result is closer to
 following the Swift API Design Guidelines. For example, this shows
@@ -239,10 +239,10 @@ a suffix of a string called the **type name**, which is defined as follows:
   |`NSUInteger`           |`NSUInteger`                                |
   |`CGFloat`              |`CGFloat`                                   |
 
-* When the Objective-C type is a block, the *type name* is "`Block`."
+* When the Objective-C type is a block, the *type name* is "`Block`"
 
 * When the Objective-C type is a pointer- or reference-to-function,
-  the *type name* is "`Function`."
+  the *type name* is "`Function`"
 
 * When the Objective-C type is a typedef other than `NSInteger`,
   `NSUInteger`, or `CGFloat` (which follow the first rule above), the
@@ -568,12 +568,12 @@ piece, and some prune from the tail.  When [pruning restrictions](#pruning-restr
 prevent both the head and tail from being pruned, prioritizing
 head-pruning steps can keep method families together.  For example,
 in NSFontDescriptor:
-
+```swift
     func fontDescriptorWithSymbolicTraits(_: NSFontSymbolicTraits) -> NSFontDescriptor
     func fontDescriptorWithSize(_: CGFloat) -> UIFontDescriptor
     func fontDescriptorWithMatrix(_: CGAffineTransform) ->  UIFontDescriptor
     ...
-
+```
 becomes:
 
 <pre>
@@ -620,11 +620,11 @@ UIView.animateWithDuration(
 </pre>
 
 to become:
-
+```swift
     rootViewController.present(alert, animated: true)
     UIView.animateWithDuration(
       0.2, delay: 0.0, animations: { self.logo.alpha = 0.0 }) { _ in self.logo.hidden = true }
-
+```
 #### Add First Argument Labels
 
 If the first selector piece contains a preposition, **split the first
@@ -671,10 +671,10 @@ array.enumerateObjects() {               // OK
 
 **For Boolean properties, use the name of the getter as the property
   name in Swift*. For example:
-
+```swift
     @interface NSBezierPath : NSObject
     @property (readonly,getter=isEmpty) BOOL empty;
-
+```
 will become
 
 <pre>
